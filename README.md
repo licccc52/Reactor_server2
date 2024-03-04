@@ -309,3 +309,5 @@ write(): 设置counter的值 , eventfd会累加write()的值
 1. 设置2和15的信号
 2. 在信号处理函数中停止主从时间循环和工作循环
 3. 服务程序主动退出
+
+==>> bug原因： 在判断connection是否超时的时候会调用lasttime.toint()函数，如果connection已经被删除就会造成段错误
