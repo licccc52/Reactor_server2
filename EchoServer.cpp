@@ -114,7 +114,7 @@ void EchoServer::HandleSendComplete(spConnection conn)
 {
     // std::cout << "EchoServer::HandleSendComplete,  Message send complete : "<<" thread is " <<  syscall(SYS_gettid) << std::endl;
 
-    // 根据业务的需求，在这里可以增加其它的代码。
+    // 根据需求，在这里可以增加其它的代码。
 }
 
 /*
@@ -123,6 +123,6 @@ void EchoServer::HandleTimeOut(EventLoop *loop)
 {
     std::cout << "EchoServer timeout." << std::endl;
 
-    // 根据业务的需求，在这里可以增加其它的代码。
+    // 根据需求，在这里可以增加其它的代码。
 }
 */

@@ -45,12 +45,13 @@ void EventLoop::run() // 运行事件循环
         //如果channels为空, 表示超时, 回调TcpServer::connection
         if(channels.size() == 0){
             epolltimeoutcallback_(this); //在TcpServer中, EventLoop初始化的时候设置
-        } 
+        }
+        
         else{
             // 如果infds>0，表示有事件发生的fd的数量。
             for (auto &ch : channels)       // 遍历epoll返回的数组evs。
             {
-                printf("In EventLoop::run() -> EVENTLOOP\n");
+                printf("EventLoop::run() thread is %ld.\n", syscall(SYS_gettid));
                 ch->handleevent();
             }
         }
@@ -172,7 +173,7 @@ void EventLoop::handletimer()  //闹钟响时 执行的函数
  {
     std::lock_guard<std::mutex> gd(mmutex_);
     // if(conn->fd() == 0); return;
-    std::cout << "EventLoop::newconnection, conn_, fisrt fd() = " << conn->fd() << " conn : " << conn << std::endl; 
+    std::cout << "EventLoop::newconnection, conn_, fisrt fd() = " << conn->fd() <<  std::endl; 
     conns_[conn->fd()]=conn;
  }
 

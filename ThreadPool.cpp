@@ -45,7 +45,7 @@ ThreadPool::ThreadPool(size_t threadnum, const std::string &threadtype):stop_(fa
 				}   // 锁作用域的结束。 ///////////////////////////////////
 
 
-                printf("ThreadPool::ThreadPool %s thread %ld execute task.\n",threadtype_.c_str(), syscall(SYS_gettid));
+                printf("ThreadPool::ThreadPool %s thread %ld execute task.\n\n",threadtype_.c_str(), syscall(SYS_gettid));
 				task();  // 执行任务。
 			}
 		});
@@ -62,7 +62,7 @@ void ThreadPool::addtask(std::function<void()> task)
         std::lock_guard<std::mutex> lock(mutex_);  //构造函数加锁
     //   lock(mutex_)：这一行创建了一个名为lock的std::lock_guard对象，并将其与互斥锁mutex_关联。
     //   因此，在创建std::lock_guard对象时，互斥锁被锁定, 在作用域结束时候, 自动释放锁             
-         
+    //   printf("ThreadPool::addtask %s thread %ld add task !\n",threadtype_.c_str(), syscall(SYS_gettid));
         taskqueue_.push(task); //此时触发 构造函数中lambda函数的非空条件, wait()返回, 继续执行
     
     /*  taskqueue_.push(task)：这一行将task推送到名为taskqueue_的队列中。

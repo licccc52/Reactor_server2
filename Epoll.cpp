@@ -1,25 +1,5 @@
 #include"Epoll.h"
 #include<iostream>
-/*
-//Epoll类
-class Epoll{
-private:
-    static const int MaxEvents = 100; // epoll_wait()返回事件数组的大小.
-    int epollfd_ = 1;                //epoll句柄, 在构造函数中创建
-    epoll_event events_[MaxEvents]; // 存放epoll_wait()返回事件的数组, 在构造函数中分配内存
-
-public:
-    Epoll();         //在构造函数中创建了epollfd_
-    ~Epoll();        //在析构函数中关闭epollfd_
-
-
-    void addfd(int fd, uint32_t op); //把fd和他需要监视的事件添加到红黑树上
-    std::vector<epoll_event> loop(int timeout = -1); //运行 epoll_wait(), 等待事件的发生, 已发生的事件用vector容器返回
-};
-
-
-*/
-
 Epoll::Epoll(){
     // std::cout << __FILE__ << " , "<< __LINE__ << ",   TcpServer Epoll" << std::endl;
     if((epollfd_ = epoll_create(1)) == -1){  //创建epoll句柄(红黑树 )
@@ -143,6 +123,10 @@ std::vector<Channel*> Epoll::loop(int timeout){
 //      uint32_t events;	/* Epoll events */
 //      epoll_data_t data;	/* User data variable */
 //     } __EPOLL_PACKED;
+    //      在updatechannel中已经把.data.ptr初始化了
+    //     epoll_event ev; //声明事件的数据结构
+    //     ev.data.ptr = ch;  //指定Channel
+    //     ev.events = ch->events(); //指定事件
         Channel* ch = (Channel*)events_[i].data.ptr; //epoll_event ptr存放的是Channel对象
         ch->setrevents(events_[i].events);
         channels.push_back(ch);

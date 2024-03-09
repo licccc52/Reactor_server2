@@ -95,20 +95,23 @@ uint32_t Channel::revents() // 返回revents_成员
  { 
     if (revents_ & EPOLLRDHUP)    // 对方已关闭，有些系统检测不到，可以使用EPOLLIN，recv()返回0。
     {
+        printf("Channel::handleevent() handle EPOLLRDHUP , thread_id is %ld.\n\n", syscall(SYS_gettid));
         closecallback_();   //回调std::bind(&Connection::closecallback,this)
     }                                //  普通数据  带外数据
     else if (revents_ & (EPOLLIN|EPOLLPRI))   // 接收缓冲区中有数据可以读。
     {
+        printf("Channel::handleevent() handle EPOLLIN|EPOLLPRI , thread_id is %ld.\n\n", syscall(SYS_gettid));
         readcallback_();     //clientchannel_ 回调std::bind(&Connection::onmessage,this)
                             // acceptchannel_.setreadcallback(std::bind(&Acceptor::newconnection, this));
     }
     else if (revents_ & EPOLLOUT)                  // 有数据需要写，暂时没有代码，以后再说。
     {
-
+        printf("Channel::handleevent() handle EPOLLOUT , thread_id is %ld.\n\n", syscall(SYS_gettid));
         writecallback_(); //回调std::bind(&Connection::writecallback,this)
     }
     else               // 其它事件，都视为错误。
     {
+        printf("Channel::handleevent() handle else, thread_id is %ld.\n\n", syscall(SYS_gettid));
         errorcallback_(); //回调std::bind(&Connection::errorcallback,this)
     }
  }
