@@ -128,7 +128,6 @@ void EventLoop::handlewakeup() //事件循环线程被eventfd唤醒后执行的�
 void EventLoop::handletimer()  //闹钟响时 执行的函数
 {
     //重新开始记时
-
     struct itimerspec timeout;                                // 定时时间的数据结构。
     memset(&timeout,0,sizeof(struct itimerspec));
     timeout.it_value.tv_sec = timetvl_;                             // 定时时间，固定为5，方便测试。
@@ -144,7 +143,7 @@ void EventLoop::handletimer()  //闹钟响时 执行的函数
     {
         // printf("EventLoop::handletimer() thread is %ld. fd ",syscall(SYS_gettid));
         time_t now = time(0); //获取当前事件
-        for(auto aa:conns_){
+        for(const auto aa:conns_){
             if (aa.first == 0) {
             // 跳过键为 0 的键值对
                 std::cout << "Int EventLoop::handletimer() conns_ map , aa.first is 0 " << ", conns_ is empty()? , conns_.empty() : " << conns_.empty() << std::endl; 

@@ -304,6 +304,36 @@ write(): 设置counter的值 , eventfd会累加write()的值
         printf("\n");
     }
 ```
+```
+(gdb) up
+#1  0x000055c74a13704b in std::_Rb_tree_iterator<std::pair<int const, std::shared_ptr<Connection> > >::operator++ (this=0x7f8d8f462a88)
+    at /usr/include/c++/9/bits/stl_tree.h:287
+287             _M_node = _Rb_tree_increment(_M_node);
+(gdb) u[
+The program is not being run.
+(gdb) up
+#2  0x000055c74a136020 in EventLoop::handletimer (this=0x55c74acfee80) at EventLoop.cpp:147
+warning: Source file is more recent than executable.
+147                 if (aa.first == 0) {
+(gdb) down
+#1  0x000055c74a13704b in std::_Rb_tree_iterator<std::pair<int const, std::shared_ptr<Connection> > >::operator++ (this=0x7f8d8f462a88)
+    at /usr/include/c++/9/bits/stl_tree.h:287
+287             _M_node = _Rb_tree_increment(_M_node);
+(gdb) down
+#0  0x00007f8d908891d3 in std::_Rb_tree_increment(std::_Rb_tree_node_base*) () from /lib/x86_64-linux-gnu/libstdc++.so.6
+(gdb) down
+Bottom (innermost) frame selected; you cannot go down.
+(gdb) u
+The program is not being run.
+(gdb) up
+#1  0x000055c74a13704b in std::_Rb_tree_iterator<std::pair<int const, std::shared_ptr<Connection> > >::operator++ (this=0x7f8d8f462a88)
+    at /usr/include/c++/9/bits/stl_tree.h:287
+287             _M_node = _Rb_tree_increment(_M_node);
+(gdb) up
+#2  0x000055c74a136020 in EventLoop::handletimer (this=0x55c74acfee80) at EventLoop.cpp:147
+147                 if (aa.first == 0) {
+```
+
 
 ### 服务程序的退出
 1. 设置2和15的信号
