@@ -143,8 +143,8 @@ void EventLoop::handletimer()  //闹钟响时 执行的函数
     {
         // printf("EventLoop::handletimer() thread is %ld. fd ",syscall(SYS_gettid));
         time_t now = time(0); //获取当前事件
-        for(const auto aa:conns_){
-            if (aa.first == 0) {
+        for(auto aa = conns_.begin(); aa != conns_.end(); aa++){
+            if (aa->first == 0) {
             // 跳过键为 0 的键值对
                 std::cout << "Int EventLoop::handletimer() conns_ map , aa.first is 0 " << ", conns_ is empty()? , conns_.empty() : " << conns_.empty() << std::endl; 
                 //Connection对象已析构
@@ -154,13 +154,13 @@ void EventLoop::handletimer()  //闹钟响时 执行的函数
             }
             //遍历map容器, 显示容器中每个Connection的fd()
             // std::cout << "EventLoop::handletimer()  conns_ : aa.first:  " <<  aa.first <<",  aa.second : " << aa.second << std::endl;
-            if(aa.second->timeout(now, timeout_)){
+            if(aa->second->timeout(now, timeout_)){
                 // printf("EventLoop::handletimer()1 erase thread is %ld.\n",syscall(SYS_gettid)); 
                 {
                     std::lock_guard<std::mutex> gd(mmutex_);
-                    conns_.erase(aa.first); //从map容器中删除超时的conn
+                    aa = conns_.erase(aa); //从map容器中删除超时的conn
                 }
-                timercallback_(aa.first); //从TcpServer的map中删除超时的conn
+                timercallback_(aa->first); //从TcpServer的map中删除超时的conn
             }
         }
         printf("\n");
