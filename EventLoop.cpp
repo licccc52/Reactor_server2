@@ -144,14 +144,14 @@ void EventLoop::handletimer()  //闹钟响时 执行的函数
         // printf("EventLoop::handletimer() thread is %ld. fd ",syscall(SYS_gettid));
         time_t now = time(0); //获取当前事件
         for(auto aa = conns_.begin(); aa != conns_.end(); aa++){
-            if (aa->first == 0) {
-            // 跳过键为 0 的键值对
-                std::cout << "Int EventLoop::handletimer() conns_ map , aa.first is 0 " << ", conns_ is empty()? , conns_.empty() : " << conns_.empty() << std::endl; 
-                //Connection对象已析构
-                // Int EventLoop::handletimer() conns_ map , aa.first is 0 , conns_ is empty()? , conns_.empty() : 1
-                // 段错误
-                continue;
-            }
+            // if (aa->first == 0) {
+            // // 跳过键为 0 的键值对
+            //     std::cout << "Int EventLoop::handletimer() conns_ map , aa.first is 0 " << ", conns_ is empty()? , conns_.empty() : " << conns_.empty() << std::endl; 
+            //     //Connection对象已析构
+            //     // Int EventLoop::handletimer() conns_ map , aa.first is 0 , conns_ is empty()? , conns_.empty() : 1
+            //     // 段错误
+            //     continue;
+            // }
             //遍历map容器, 显示容器中每个Connection的fd()
             // std::cout << "EventLoop::handletimer()  conns_ : aa.first:  " <<  aa.first <<",  aa.second : " << aa.second << std::endl;
             if(aa->second->timeout(now, timeout_)){
