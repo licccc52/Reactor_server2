@@ -75,6 +75,7 @@ void Connection::setsendcompletecallback(std::function<void(spConnection)> fn)
 // 处理对端发送过来的消息。
 void Connection::onmessage()//被clientchannel_ 回调的readcallback_();  ,std::bind(&Connection::onmessage,this)
 {
+    // printf("Connection::onmessage() thread is %ld.\n", syscall(SYS_gettid));
     char buffer[1024];
     while (true)             // 由于使用非阻塞IO，一次读取buffer大小数据，直到全部的数据读取完毕。
     {    

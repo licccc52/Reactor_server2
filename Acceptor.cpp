@@ -35,6 +35,7 @@ Acceptor::~Acceptor()
 // 处理新客户端连接请求
 void Acceptor::newconnection() 
 {
+    // printf("Acceptor::newconnection() thread is %ld.\n", syscall(SYS_gettid));
     ////////////////////////////////////////////////////////////////////////                    
     InetAddress clientaddr;// 注意，clientsock只能new出来，不能在栈上，否则析构函数会关闭fd。
     std::unique_ptr<Socket> clientsock(new Socket(servsock_.accept(clientaddr))); 

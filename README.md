@@ -273,6 +273,8 @@ write(): 设置counter的值 , eventfd会累加write()的值
 
 ### 代码现在的未解决的bug Ubuntu 2004
 在EventLoop()函数中: 在map conns_已经为空的情况下, 执行else{} 中的for循环的时候还是会进入, 最终导致段错误
+
+bug解决 : 删除conn的时候造成的迭代器失效问题, erase()函数会返回新的迭代器
 ```cpp
     if(mainloop_){
         // printf("主事件循环的闹钟时间到了。\n");
@@ -341,3 +343,5 @@ The program is not being run.
 3. 服务程序主动退出
 
 ==>> bug原因： 在判断connection是否超时的时候会调用lasttime.toint()函数，如果connection已经被删除就会造成段错误
+
+![one loop per thread](one_loop_per_thread.png)
