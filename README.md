@@ -342,6 +342,5 @@ The program is not being run.
 2. 在信号处理函数中停止主从时间循环和工作循环
 3. 服务程序主动退出
 
-==>> bug原因： 在判断connection是否超时的时候会调用lasttime.toint()函数，如果connection已经被删除就会造成段错误
 
 ![one loop per thread](one_loop_per_thread.png)
